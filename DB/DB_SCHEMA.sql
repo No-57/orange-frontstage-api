@@ -1,28 +1,33 @@
-create type category as enum('PHONE','LAPTOP','DESKTOP','AUDIO','TABLET','EARPHONE');
+CREATE TYPE category AS enum('phone','laptop','desktop','audio','tablet','earphone');
 
-CREATE TABLE PRDT_INFO(
-    PRDT_INFO_ID SERIAL PRIMARY KEY,
-    PRDT_NAME VARCHAR(255) NOT NULL UNIQUE,
-    PRDT_DESC TEXT,
-    PRDT_TYPE category ,
-    CREATE_DATE TIMESTAMP,
-    UPDATE_DATE TIMESTAMP
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    types category ,
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP
 );
 
-create type seller_source as enum('PCHOME','MOMO','SHOPEE','AMAZON','YAHOO','OTHER');
+CREATE TYPE seller_source AS enum('PCHOME','MOMO','SHOPEE','AMAZON','YAHOO','OTHER');
 
-CREATE TABLE PRICE_INFO(
-    PRICE_INFO_ID SERIAL PRIMARY KEY,
-    PRDT_INFO_ID  INTEGER NOT NULL,
-    PRICE NUMERIC(10,2),
-    DISCOUNT NUMERIC(3),
-    SOURCE_URL TEXT,
-    SOURCE_TYPE seller_source ,
-    DATA_DATE TIMESTAMP
+CREATE TABLE price(
+    id SERIAL PRIMARY KEY,
+    products_id  INTEGER REFERENCES products(id) NOT NULL,
+    price NUMERIC(10,2),
+    discount NUMERIC(3),
+    source_url TEXT,
+    source_type seller_source ,
+    updated_date TIMESTAMP ,
+	UNIQUE (id,products_id)
 );
 
-CREATE TABLE USER_LIKES(
-    PRDT_INFO_ID integer REFERENCES PRDT_INFO(PRDT_INFO_ID),
-    USER_ID integer REFERENCES USER_INFO(USER_ID),
-    PRIMARY KEY (PRDT_INFO_ID, USER_ID)
+CREATE TABLE history_price(
+    id SERIAL PRIMARY KEY,
+    products_id  INTEGER REFERENCES products(id) NOT NULL,
+    price NUMERIC(10,2),
+    discount NUMERIC(3),
+    source_url TEXT,
+    source_type seller_source ,
+    created_date TIMESTAMP 
 );
