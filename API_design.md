@@ -48,7 +48,7 @@ So, the frontend needs to update max_id with each request
 
 `v1/products`
 
-### Get all data：
+### Get Products：
 Request: `GET v1/products`
 
 Response：
