@@ -22,7 +22,7 @@ User-Agent: OrangeApp/1.0
 ```
 
 ### Methods：GET，POST
-`https://api.orange.com/v1/products`
+`/v1/products`
 
 
 ### Methods：GET，PUT，PATCH，DELETE
