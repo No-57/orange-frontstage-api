@@ -42,7 +42,7 @@ So, the frontend needs to update max_id with each request
 ### URI
 `https://api.orange.com/v1/products`
 ### Example 1（Get all data）：
-Request ：`Get  https://api.orange.com/v1/products`
+Request: `GET https://api.orange.com/v1/products`
 Response：
 ```json
 {
