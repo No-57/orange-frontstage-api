@@ -1,3 +1,8 @@
+CREATE DATABASE orangedb;
+
+-- 切換到 "orangedb" database
+\c orangedb;
+
 CREATE TYPE category AS enum('phone','laptop','desktop','audio','tablet','earphone');
 
 CREATE TABLE products(
