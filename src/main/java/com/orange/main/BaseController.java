@@ -12,6 +12,4 @@ public class BaseController {
 
         return rtnObj;
     }
-
-    
 }

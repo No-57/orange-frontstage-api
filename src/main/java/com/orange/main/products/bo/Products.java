@@ -1,6 +1,8 @@
 package com.orange.main.products.bo;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +16,8 @@ public class Products {
     private Long id;
     private String name;
     private String description;
-    private String types;
+    @Enumerated(EnumType.STRING)
+    private Types types;
     private String createdDate;
     private String updatedDate;
 
@@ -42,13 +45,13 @@ public class Products {
         this.description = description;
     }
 
-    public String getTypes() {
+    public Object getTypes() {
         return this.types;
     }
 
-    public void setTypes(String types) {
+    public void setTypes(Types types) {
         this.types = types;
-    }
+    };
 
     public String getCreatedDate() {
         return this.createdDate;
@@ -66,6 +69,9 @@ public class Products {
         this.updatedDate = updatedDate;
     }
 
+    public enum Types{
+        phone, laptop, desktop, audio, tablet, earphone
+    }
 }
 
 

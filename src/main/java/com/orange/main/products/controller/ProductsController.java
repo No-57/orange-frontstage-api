@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,21 +24,19 @@ public class ProductsController  extends BaseController{
 
     @GetMapping("/all")
     public Object getProducts() {
-        
         Iterable<Products> product = productsService.getAllProducts();
         Collection<Products> rt = new ArrayList<>();
         product.forEach(rt::add);
+
         return transResponseObj(rt);
     }
 
     @GetMapping("")
-    public Object getProducts(@RequestParam(name = "name",required = false) List<String> name,@RequestParam(name = "sort_by",required = false) String sortBy,@RequestParam(name = "order_by",required = false) String orderBy) {
-        Iterable<Products> product = productsService.findByNameIn(name,sortBy,StringUtils.upperCase(orderBy));
+    public Object getProducts(@RequestParam(name = "name", required = false) List<String> name, @RequestParam(name = "sort_by", required = false) String sortBy, @RequestParam(name = "order_by", required = false) String orderBy) {
+        Iterable<Products> product = productsService.findByNameIn(name, sortBy, orderBy!=null?orderBy.toUpperCase():null);
         
-        //return new ResponseEntity<>(product, HttpStatus.OK);
         return transResponseObj(product);
     }
-
 
     public ProductsService getProductsService() {
         return this.productsService;
@@ -50,8 +48,6 @@ public class ProductsController  extends BaseController{
 
     @GetMapping("/health")
     public Object getHealth() {
-        
-        
         return transResponseObj("Egg");
     }
 }

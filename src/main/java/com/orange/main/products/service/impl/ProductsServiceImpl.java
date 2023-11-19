@@ -24,7 +24,6 @@ public class ProductsServiceImpl implements ProductsService {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Override
     public Products getProductById(Long productId) {
         Optional<Products> optionalUser =  productsRepository.findById(productId);
@@ -34,34 +33,11 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Iterable<Products> getAllProducts() {
         return productsRepository.findAll();
-        //throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
     }
 
- /* */   @Override
+    @Override
     public Iterable<Products> findByNameIn(List<String> name, String sortBy, String orderBy) {
         return productsRepository.findByNameIn(name,Sort.by("DESC".equals(orderBy)?Sort.Direction.DESC:Sort.Direction.ASC, StringUtils.isNotBlank(sortBy)?sortBy:"id"));
-        /*StringBuilder jpql = new StringBuilder("SELECT p FROM Products p ");
-        if(!CollectionUtils.isEmpty(name)){
-            jpql.append("WHERE name in :names");
-        }
-        
-        if (sortBy != null) {
-            jpql.append(" ORDER BY :sortBy");
-        } else {
-            jpql.append(" ORDER BY p.id");
-        }
-        if (orderBy != null) {
-            jpql.append(orderBy);
-        }
-
-        TypedQuery<Products> query = entityManager.createQuery(jpql.toString(), Products.class);
-        query.setParameter("names", name);
-        query.setParameter("sortBy", sortBy);
-
-        return query.getResultList();*/
-        // TODO Auto-generated method stub
-        //productsRepository.getProductsByName(name, sortBy, orderBy);
-        //throw new UnsupportedOperationException("Unimplemented method 'getProductsByName'");
     }
 
 
@@ -72,6 +48,4 @@ public class ProductsServiceImpl implements ProductsService {
     public void setProductsRepository(ProductsRepository productsRepository) {
         this.productsRepository = productsRepository;
     }
-
-    
 }
