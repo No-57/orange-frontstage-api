@@ -4,7 +4,16 @@ package com.orange.main;
 public class ResponseObj {
     private String code;
     private Object data;
-    private String errors;
+    private String extra;
+    private String message;
+
+    public ResponseObj(){};
+    
+    public ResponseObj(String code, String extra, String message){
+        this.code = code;
+        this.extra = extra;
+        this.message = message;
+    }
 
     public String getCode() {
         return code;
@@ -22,11 +31,20 @@ public class ResponseObj {
         this.data = data;
     }
 
-    public String getErrors() {
-        return errors;
+    public String getExtra() {
+        return this.extra;
     }
-    
-    public void setErrors(String errors) {
-        this.errors = errors;
+
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }
