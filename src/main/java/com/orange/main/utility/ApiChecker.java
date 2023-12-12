@@ -1,18 +1,14 @@
 package com.orange.main.utility;
 
-import org.springframework.data.domain.Pageable;
-
-import io.micrometer.common.util.StringUtils;
-
 public class ApiChecker {
-    public static String PageableChecker(Pageable page){
+    public static String PageableChecker(int page, int size){
         String error = "";
-        if(StringUtils.isNotBlank(error) && page.getPageNumber() < 1){
-            error = "page number must >= 1 !!!";
+        if(page < 1){
+            error = error+"page number must >= 1 !!!; ";
         }
 
-        if(StringUtils.isNotBlank(error) && page.getPageSize() == 0){
-            error = "page size must > 0 !!!";
+        if(size == 0){
+            error = error+"page size must > 0 !!!; ";
         }
 
         return error;

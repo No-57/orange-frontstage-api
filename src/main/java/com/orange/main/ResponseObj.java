@@ -1,9 +1,5 @@
 package com.orange.main;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
-@JsonIgnoreProperties("pageable")
 public class ResponseObj {
     private String code;
     private Object data;

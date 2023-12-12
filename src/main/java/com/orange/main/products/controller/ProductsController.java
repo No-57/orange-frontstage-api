@@ -1,7 +1,5 @@
 package com.orange.main.products.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +34,15 @@ public class ProductsController  extends BaseController{
     @RequestParam(required = false, defaultValue = "ASC") String order_by, 
     @RequestParam(required = false) List<String> fields) {
         Sort s = Sort.by(Direction.fromString(order_by),sort_by);
-        PageRequest p = PageRequest.of(page-1, page_size, s);
-        if(StringUtils.isNotBlank(ApiChecker.PageableChecker(p))){
-            return checkError("9999",ApiChecker.PageableChecker(p),"");
+        if(StringUtils.isNotBlank(ApiChecker.PageableChecker(page,page_size))){
+            return checkError("9999",ApiChecker.PageableChecker(page,page_size),"");
         }
+        PageRequest p = PageRequest.of(page-1, page_size, s);
         Iterable<Products> product;
         if(CollectionUtils.isEmpty(name))
             product = productsService.getAllProducts(p, fields);
         else
             product = productsService.findByNameIn(p, name, fields);
-
-        Collection<Products> rt = new ArrayList<>();
-        product.forEach(rt::add);
 
         return transResponseObj(product);
     }
