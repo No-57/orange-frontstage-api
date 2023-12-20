@@ -16,7 +16,8 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public List<Theme> getThemeByType(String type) {
-        return themeRepository.findByType(type);
+        // find active theme by type
+        return themeRepository.findByTypeAndDisable(type,false);
     }
 
 }

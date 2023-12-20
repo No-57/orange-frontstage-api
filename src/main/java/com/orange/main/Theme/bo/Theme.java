@@ -12,7 +12,7 @@ public class Theme {
     private Long id;
     private String code;
     private String type;
-    private String disable;
+    private boolean disable;
     private String created_date;
     private String updated_date;
 
@@ -40,11 +40,11 @@ public class Theme {
         this.type = type;
     }
 
-    public String getDisable() {
+    public boolean getDisable() {
         return disable;
     }
 
-    public void setDisable(String disable) {
+    public void setDisable(boolean disable) {
         this.disable = disable;
     }
 
