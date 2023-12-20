@@ -5,7 +5,7 @@ import com.orange.main.Theme.bo.Theme;
 import com.orange.main.Theme.service.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public class ThemeController extends BaseController{
     @Autowired
     private ThemeService themeService;
 
-    @GetMapping("/themes")
-    public Object getBoardsByCodeAndLimit(@RequestParam String type) {
+    @GetMapping("/themes/{type}")
+    public Object getBoardsByCodeAndLimit(@PathVariable String type) {
         List<Theme> themeList = themeService.getThemeByType(type);
         return transResponseObj(themeList);
     }
