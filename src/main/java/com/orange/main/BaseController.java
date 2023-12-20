@@ -10,13 +10,13 @@ public class BaseController {
 /* Transfer Object to ReponseObj, make Object to JSON correctly. */
     protected static ResponseEntity<ResponseObj> transResponseObj(Object obj){
         ResponseObj rtnObj = new ResponseObj();
-        rtnObj.setCode("0000");
+        rtnObj.setCode(0000);
         rtnObj.setData(obj);
 
         return ResponseEntity.ok(rtnObj);
     }
 
-    protected static ResponseEntity<ResponseObj> checkError(String code, String message, String extra){
+    protected static ResponseEntity<ResponseObj> checkError(int code, String message, String extra){
         ResponseObj rtnObj = new ResponseObj();
         rtnObj.setCode(code);
         rtnObj.setExtra(extra);
