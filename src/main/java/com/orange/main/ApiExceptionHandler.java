@@ -10,6 +10,6 @@ public class ApiExceptionHandler {
     
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handle(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseObj("500", e.toString(), "Exception = " + e.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseObj(500, e.toString(), "Exception = " + e.getMessage()));
     }
 }

@@ -1,24 +1,24 @@
 package com.orange.main;
 
 public class ResponseObj {
-    private String code;
+    private int code;
     private Object data;
     private String extra;
     private String message;
 
     public ResponseObj(){};
     
-    public ResponseObj(String code, String extra, String message){
+    public ResponseObj(int code, String extra, String message){
         this.code = code;
         this.extra = extra;
         this.message = message;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
