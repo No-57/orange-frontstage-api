@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.main.BaseController;
+import com.orange.main.products.bo.ProductDTO;
 import com.orange.main.products.bo.Products;
 import com.orange.main.products.service.ProductsService;
 import com.orange.main.utility.ApiChecker;
@@ -38,7 +39,7 @@ public class ProductsController  extends BaseController{
             return checkError(9999,ApiChecker.PageableChecker(page,page_size),"");
         }
         PageRequest p = PageRequest.of(page-1, page_size, s);
-        Iterable<Products> product;
+        Iterable<ProductDTO> product;
         if(CollectionUtils.isEmpty(name))
             product = productsService.getAllProducts(p, fields);
         else

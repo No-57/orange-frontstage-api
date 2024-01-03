@@ -1,6 +1,10 @@
 package com.orange.main.products.service.impl;
 
+
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.orange.main.price.bo.Price;
+import com.orange.main.price.repo.PriceRepository;
+import com.orange.main.products.bo.ProductDTO;
 import com.orange.main.products.bo.Products;
 import com.orange.main.products.repo.ProductsRepository;
 import com.orange.main.products.service.ProductsService;
@@ -32,19 +39,42 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public List<Products> getAllProducts(Pageable page, List<String> fields) {
+    public List<ProductDTO> getAllProducts(Pageable page, List<String> fields) {
+        List<ProductDTO> dto = new ArrayList<>();
         Page<Products> products = productsRepository.findAll(page);
         //fields filiter
         List<Products> rtn = products.getContent().stream().map(p -> handleUnspecifiedColumns(p, fields)).toList();
-        return rtn;
+
+        if(!CollectionUtils.isEmpty(rtn)){
+            for(Products product:rtn){
+                Price p = product.getPrices()
+                .stream()
+                .min(Comparator.comparing(Price::getPrice))
+                .orElseThrow(NoSuchElementException::new);
+                ProductDTO productDto = new ProductDTO(product, p.getSellerType().toString(), p.getPrice(), p.getDiscount(), null==product.getProductImgs()?null:product.getProductImgs().getPath());
+                dto.add(productDto);
+           }
+        }
+        return dto;
     }
 
     @Override
-    public List<Products> findByNameIn(Pageable page, List<String> name, List<String> fields) {
+    public List<ProductDTO> findByNameIn(Pageable page, List<String> name, List<String> fields) {
+        List<ProductDTO> dto = new ArrayList<>();
         Page<Products> products = productsRepository.findByNameIn(page, name);
         //fields filiter
         List<Products> rtn = products.getContent().stream().map(p -> handleUnspecifiedColumns(p, fields)).toList();
-        return rtn;
+         if(!CollectionUtils.isEmpty(rtn)){
+            for(Products product:rtn){
+                Price p = product.getPrices()
+                .stream()
+                .min(Comparator.comparing(Price::getPrice))
+                .orElseThrow(NoSuchElementException::new);
+                ProductDTO productDto = new ProductDTO(product, p.getSellerType().toString(), p.getPrice(), p.getDiscount(), null==product.getProductImgs()?null:product.getProductImgs().getPath());
+                dto.add(productDto);
+           }
+        }
+        return dto;
     }
 
     public ProductsRepository getProductsRepository() {
