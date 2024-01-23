@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 
 public class ProductDTO {
 
-    public ProductDTO(Products products, String distributor, BigDecimal price, BigDecimal discount, String path){
+    public ProductDTO(Products products, String distributor, BigDecimal price, BigDecimal discount, String path) {
         this.products = products;
         if(null != this.products.getPrices()){
-            this.products.setPrices(null);
+            this.products.initPrice();
         }
         this.distributor = distributor;
         this.price = price;

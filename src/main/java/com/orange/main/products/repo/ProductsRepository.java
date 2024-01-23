@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.orange.main.products.bo.Products;
 
-public interface ProductsRepository extends PagingAndSortingRepository<Products, Long>{
+public interface ProductsRepository extends PagingAndSortingRepository<Products, Long> {
     /* Repository will automatially generate sql according to method name */
     public Page<Products> findByNameIn(Pageable page, List<String> name);
 

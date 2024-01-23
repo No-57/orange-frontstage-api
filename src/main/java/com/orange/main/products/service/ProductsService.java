@@ -14,4 +14,6 @@ public interface ProductsService {
 
     Iterable<ProductDTO> findByNameIn(Pageable page, List<String> name, List<String> fields);
 
+    String getProductsImgs(Long productId);
+
 }

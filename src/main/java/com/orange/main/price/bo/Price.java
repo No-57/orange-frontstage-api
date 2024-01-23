@@ -3,6 +3,7 @@ package com.orange.main.price.bo;
 import java.math.BigDecimal;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
@@ -35,7 +36,8 @@ public class Price {
 
     private BigDecimal price;
     private BigDecimal discount;
-    private String source_url;
+    @JsonAlias(value = "source_url")
+    private String sourceUrl;
     @Enumerated(EnumType.STRING)
     @Column(name = "seller_type")
     private SellerSource sellerType;
@@ -65,14 +67,6 @@ public class Price {
         this.discount = discount;
     }
 
-    public String getSource_url() {
-        return source_url;
-    }
-
-    public void setSource_url(String source_url) {
-        this.source_url = source_url;
-    }
-
     public TimeZone getUpdated_date() {
         return updated_date;
     }
@@ -92,4 +86,13 @@ public class Price {
     public enum SellerSource{
         OTHER, YAHOO, AMAZON, SHOPEE, MOMO, PCHOME
     }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
 }

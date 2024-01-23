@@ -56,6 +56,13 @@ public class ProductsController  extends BaseController{
         return transResponseObj(product);
     }
 
+    @GetMapping("/products/{id}/imgs")
+    public Object getProductsImgs(@PathVariable(name = "id", required = true) Long id) {
+        String path = productsService.getProductsImgs(id);
+        
+        return transResponseObj(path);
+    }
+
     @GetMapping("/health")
     public Object getHealth() {
         return transResponseObj("Egg");

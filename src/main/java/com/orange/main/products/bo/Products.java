@@ -109,6 +109,10 @@ public class Products {
     public enum Types{
         phone, laptop, desktop, audio, tablet, earphone
     }
+
+    public void initPrice(){
+        this.setPrices(null);
+    }
 }
 
 

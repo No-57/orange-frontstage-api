@@ -14,9 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.orange.main.price.bo.Price;
-import com.orange.main.price.repo.PriceRepository;
 import com.orange.main.products.bo.ProductDTO;
+import com.orange.main.products.bo.ProductImgs;
 import com.orange.main.products.bo.Products;
+import com.orange.main.products.repo.ProductImgsRepository;
 import com.orange.main.products.repo.ProductsRepository;
 import com.orange.main.products.service.ProductsService;
 
@@ -28,6 +29,9 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Autowired
     private ProductsRepository productsRepository;
+
+    @Autowired
+    private ProductImgsRepository productImgsRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -64,17 +68,24 @@ public class ProductsServiceImpl implements ProductsService {
         Page<Products> products = productsRepository.findByNameIn(page, name);
         //fields filiter
         List<Products> rtn = products.getContent().stream().map(p -> handleUnspecifiedColumns(p, fields)).toList();
-         if(!CollectionUtils.isEmpty(rtn)){
-            for(Products product:rtn){
-                Price p = product.getPrices()
-                .stream()
-                .min(Comparator.comparing(Price::getPrice))
-                .orElseThrow(NoSuchElementException::new);
-                ProductDTO productDto = new ProductDTO(product, p.getSellerType().toString(), p.getPrice(), p.getDiscount(), null==product.getProductImgs()?null:product.getProductImgs().getPath());
-                dto.add(productDto);
-           }
+        if(CollectionUtils.isEmpty(rtn)){
+            return dto;
+        }
+
+        for(Products product:rtn){
+            Price p = product.getPrices()
+            .stream()
+            .min(Comparator.comparing(Price::getPrice))
+            .orElseThrow(NoSuchElementException::new);
+            ProductDTO productDto = new ProductDTO(product, p.getSellerType().toString(), p.getPrice(), p.getDiscount(), getImgsUrl(product.getId()));
+            productDto.getProducts().setPrices(null);
+            dto.add(productDto);
         }
         return dto;
+    }
+
+    private String getImgsUrl(Long id) {
+        return "http://localhost:8080/api/v1/products/"+id+"/imgs";
     }
 
     public ProductsRepository getProductsRepository() {
@@ -96,5 +107,15 @@ public class ProductsServiceImpl implements ProductsService {
             if(!specifiedColumns.contains("updatedDate")) p.setUpdatedDate(null);
         }
         return p;
+    }
+
+    @Override
+    public String getProductsImgs(Long productId) {
+        Optional<ProductImgs> imgs = productImgsRepository.findById(productId);
+        if(imgs.isPresent())
+            return imgs.get().getPath();
+        else
+            return null;
+            
     }
 }
