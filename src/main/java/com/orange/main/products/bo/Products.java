@@ -1,16 +1,22 @@
 package com.orange.main.products.bo;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.orange.main.price.bo.Price;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +32,31 @@ public class Products {
     private Types types;
     private String createdDate;
     private String updatedDate;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId")
+    @JsonManagedReference
+    private List<Price> prices;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private ProductImgs productImgs;
+
+    public List<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Price> prices) {
+        this.prices = prices;
+    }
+
+    public ProductImgs getProductImgs() {
+        return productImgs;
+    }
+
+    public void setProductImgs(ProductImgs productImgs) {
+        this.productImgs = productImgs;
+    }
 
     public Long getId() {
         return this.id;
@@ -77,6 +108,10 @@ public class Products {
 
     public enum Types{
         phone, laptop, desktop, audio, tablet, earphone
+    }
+
+    public void initPrice(){
+        this.setPrices(null);
     }
 }
 
