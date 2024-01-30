@@ -9,12 +9,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.main.BaseController;
 import com.orange.main.products.bo.ProductDTO;
+import com.orange.main.products.bo.ProductLike;
 import com.orange.main.products.bo.Products;
 import com.orange.main.products.service.ProductsService;
 import com.orange.main.utility.ApiChecker;
@@ -61,6 +64,31 @@ public class ProductsController  extends BaseController{
         String path = productsService.getProductsImgs(id);
         
         return transResponseObj(path);
+    }
+
+    @GetMapping("/products/{id}/like")
+    public Object getProductLikes(@PathVariable(name = "id", required = true) Long id,
+    @RequestParam(required = true, name="user_id") Long userId) {
+        ProductLike productLike = productsService.getProductLikes(id, userId);
+        
+        return transResponseObj(productLike.isLikes());
+    }
+
+    @PostMapping("/products/{id}/like")
+    public Object saveProductLikes(@PathVariable(name = "id", required = true) Long id,
+    @RequestParam(required = true, name="user_id") Long userId) {
+        productsService.saveProductLikes(id, userId);
+        
+        return transResponseObj("");
+    }
+
+    @PatchMapping("/products/{id}/like")
+    public Object updateProductLikes(@PathVariable(name = "id", required = true) Long id,
+    @RequestParam(required = true, name="user_id") Long userId,
+    @RequestParam(required = true, name="liked") Boolean liked) {
+        productsService.updateProductLikes(id, userId, liked);
+        
+        return transResponseObj("");
     }
 
     @GetMapping("/health")
